@@ -7,6 +7,18 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
 git submodule update --init --recursive openjarvis
+
+# Credenciales del backend cloud (ver .env.example).
+if [ -f .env ]; then
+  set -a; . ./.env; set +a
+fi
+
+# Config con motor cloud + Anthropic (se instala solo si no existe una previa).
+mkdir -p "$HOME/.openjarvis"
+if [ ! -f "$HOME/.openjarvis/config.toml" ]; then
+  cp configs/openjarvis-cloud.toml "$HOME/.openjarvis/config.toml"
+fi
+
 cd openjarvis
 
 if ! command -v uv >/dev/null 2>&1; then

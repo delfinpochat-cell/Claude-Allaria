@@ -28,10 +28,24 @@ uv run jarvis --help
 
 ### Motor de inferencia
 
-OpenJarvis necesita un motor de inferencia. Opciones:
+La configuración incluida (`configs/openjarvis-cloud.toml`) usa el motor `cloud` con Anthropic y el modelo `claude-opus-5-5`. El script de setup la copia a `~/.openjarvis/config.toml` si no existe una previa.
 
-- Local: instalar [Ollama](https://ollama.com) (`curl -fsSL https://ollama.com/install.sh | sh`).
-- Cloud: `uv sync --extra inference-cloud` y configurar una API key en `config.toml`.
+Credenciales:
+
+```bash
+cp .env.example .env
+# editar .env y completar ANTHROPIC_API_KEY
+./scripts/setup-openjarvis.sh
+```
+
+`.env` está en `.gitignore`; la key nunca se commitea. Para una sesión manual:
+
+```bash
+export ANTHROPIC_API_KEY=sk-ant-...
+cd openjarvis && uv run jarvis ask "hola"
+```
+
+Alternativa local: instalar [Ollama](https://ollama.com) y setear `engine.default = "ollama"` en `~/.openjarvis/config.toml`.
 
 ### Actualizar OpenJarvis
 
